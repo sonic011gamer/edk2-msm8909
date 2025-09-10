@@ -12,9 +12,9 @@
 //
 //
 
-#include <AsmMacroIoLib.h>
+#include <AsmMacroLib.h>
 #include <Library/PcdLib.h>
-#include <Arm/AArch32.h>
+#include <Library/ArmLib.h>
 .text
 .align 3
 
@@ -26,7 +26,6 @@ GCC_ASM_IMPORT (ArmDeInitialize)
 GCC_ASM_IMPORT (CEntryPoint)
 GCC_ASM_EXPORT (_ModuleEntryPoint)
 GCC_ASM_IMPORT (ArmEnableInstructionCache)
-GCC_ASM_IMPORT (ArmEnableDataCache)
 GCC_ASM_IMPORT (ArmInvalidateTlb)
 
 .global _StackBase 
@@ -45,29 +44,12 @@ _ModuleEntryPoint:
   /* Clear r0 for function calls below */
   mov r0, #0  
 
-  /* First ensure all interrupts are disabled */
-  bl ASM_PFX(ArmDisableInterrupts)
-
-  /* Ensure that the MMU and caches are off */
-  bl ASM_PFX(ArmDisableCachesAndMmu)
- 
-  /* Invalide I-Cache */
-  bl ASM_PFX(ArmInvalidateInstructionCache)
-  
-  /* Invalidate TLB */
-  bl ASM_PFX(ArmInvalidateTlb)
-    
 _SetupPrimaryCoreStack:
   ldr r0, _StackBase     /* Stack base arg0 */
   ldr r1, _StackSize     /* Stack size arg1 */
   
   add r4, r0, r1
   add sp, r4, #0
-
-_EnableCache: 
-  bl ArmInvalidateDataCache
-  bl ASM_PFX(ArmEnableInstructionCache)
-  bl ASM_PFX(ArmEnableDataCache) 
 
 _PrepareArguments:
   /* r0 = _StackBase and r1 = _StackSize */

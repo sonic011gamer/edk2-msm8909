@@ -25,7 +25,7 @@
   BUILD_TARGETS                  = DEBUG|RELEASE
   SKUID_IDENTIFIER               = DEFAULT
   FLASH_DEFINITION               = MSM8909Pkg/MSM8909Pkg.fdf
-  DEFINE USE_SCREEN_FOR_SERIAL_OUTPUT = 0
+  DEFINE USE_SCREEN_FOR_SERIAL_OUTPUT = 1
 
 !include MSM8909Pkg/CommonDsc.dsc.inc
 
@@ -39,11 +39,10 @@
   VariablePolicyLib|MdeModulePkg/Library/VariablePolicyLib/VariablePolicyLibRuntimeDxe.inf
 
 [LibraryClasses.common]
-  PrePiMemoryAllocationLib|EmbeddedPkg/Library/PrePiMemoryAllocationLib/PrePiMemoryAllocationLib.inf
   OrderedCollectionLib|MdePkg/Library/BaseOrderedCollectionRedBlackTreeLib/BaseOrderedCollectionRedBlackTreeLib.inf
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
   ArmPlatformLib|MSM8909Pkg/Library/MSM8909PkgLib/MSM8909PkgLib.inf
-  CompilerIntrinsicsLib|ArmPkg/Library/CompilerIntrinsicsLib/CompilerIntrinsicsLib.inf
+  CompilerIntrinsicsLib|MdePkg/Library/CompilerIntrinsicsLib/CompilerIntrinsicsLib.inf
 
   CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
   UefiBootManagerLib|MdeModulePkg/Library/UefiBootManagerLib/UefiBootManagerLib.inf
@@ -93,7 +92,7 @@
 
   # SimpleFbDxe
   FrameBufferBltLib|MSM8909Pkg/Library/FrameBufferBltLib/FrameBufferBltLib.inf
-  
+
     # Platform Drivers
 !if $(USE_SCREEN_FOR_SERIAL_OUTPUT) == 1
   SerialPortLib|MSM8909Pkg/Library/FrameBufferSerialPortLib/FrameBufferSerialPortLib.inf
@@ -155,7 +154,6 @@
   ## If TRUE, Graphics Output Protocol will be installed on virtual handle created by ConsplitterDxe.
   #  It could be set FALSE to save size.
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutGopSupport|TRUE
-  gEfiMdeModulePkgTokenSpaceGuid.PcdConOutUgaSupport|FALSE
 
 [PcdsFixedAtBuild.common]
   gEfiMdePkgTokenSpaceGuid.PcdDefaultTerminalType|4
@@ -225,7 +223,7 @@
   # GUID of the UI app
   gEfiMdeModulePkgTokenSpaceGuid.PcdBootManagerMenuFile|{ 0x21, 0xaa, 0x2c, 0x46, 0x14, 0x76, 0x03, 0x45, 0x83, 0x6e, 0x8a, 0xb6, 0xf4, 0x66, 0x23, 0x31 }
 
-  gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|5
+  gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut|0
 
   gEfiMdeModulePkgTokenSpaceGuid.PcdResetOnMemoryTypeInformationChange|FALSE
 
@@ -285,19 +283,20 @@
   MdeModulePkg/Universal/SecurityStubDxe/SecurityStubDxe.inf
   MdeModulePkg/Universal/CapsuleRuntimeDxe/CapsuleRuntimeDxe.inf
   EmbeddedPkg/EmbeddedMonotonicCounter/EmbeddedMonotonicCounter.inf
-  EmbeddedPkg/ResetRuntimeDxe/ResetRuntimeDxe.inf
+  MdeModulePkg/Universal/ResetSystemRuntimeDxe/ResetSystemRuntimeDxe.inf
   EmbeddedPkg/RealTimeClockRuntimeDxe/RealTimeClockRuntimeDxe.inf
   EmbeddedPkg/MetronomeDxe/MetronomeDxe.inf
 
+
   MdeModulePkg/Universal/Console/ConPlatformDxe/ConPlatformDxe.inf
-  MSM8909Pkg/Drivers/ConSplitterDxe/ConSplitterDxe.inf
-  MSM8909Pkg/Drivers/GraphicsConsoleDxe/GraphicsConsoleDxe.inf
+  MdeModulePkg/Universal/Console/ConSplitterDxe/ConSplitterDxe.inf
+  MdeModulePkg/Universal/Console/GraphicsConsoleDxe/GraphicsConsoleDxe.inf
   MdeModulePkg/Universal/Console/TerminalDxe/TerminalDxe.inf
   MdeModulePkg/Universal/SerialDxe/SerialDxe.inf
 
   MdeModulePkg/Universal/Variable/RuntimeDxe/VariableRuntimeDxe.inf
 
-  ArmPkg/Drivers/ArmGic/ArmGicDxe.inf
+  ArmPkg/Drivers/ArmGicDxe/ArmGicDxe.inf
   ArmPkg/Drivers/TimerDxe/TimerDxe.inf
 
   MdeModulePkg/Universal/WatchdogTimerDxe/WatchdogTimer.inf
@@ -365,7 +364,7 @@
   MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   MdeModulePkg/Universal/Acpi/AcpiPlatformDxe/AcpiPlatformDxe.inf
   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
-
+  
   #
   # SMBIOS Support
   #

@@ -40,7 +40,6 @@
   DebugAgentLib
   SerialPortLib
   MemoryAllocationLib
-  PrePiMemoryAllocationLib
   PerformanceLib
   HobLib
   CompilerIntrinsicsLib
@@ -50,7 +49,6 @@
   # MpPark
 
 [FixedPcd]
-  gArmTokenSpaceGuid.PcdCpuVectorBaseAddress
   gEfiMdePkgTokenSpaceGuid.PcdUartDefaultBaudRate
   gEmbeddedTokenSpaceGuid.PcdPrePiStackBase
   gEmbeddedTokenSpaceGuid.PcdPrePiStackSize
